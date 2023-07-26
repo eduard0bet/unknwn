@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import sendGrid from '@sendgrid/mail';
-sendGrid.setApiKey( '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' );
+sendGrid.setApiKey( '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' );
 
 if (Astro.request.method === 'POST') {
   try{
@@ -9,9 +9,9 @@ if (Astro.request.method === 'POST') {
     const data = await Astro.request.formData();
     const name = data.get('name');
     const email = data.get('email');
+    const message = data.get('message');
     const company = data.get('company');
     const phone = data.get('phone');
-    const message = data.get('message');
 
     // TODO: Do not forget to do validation and error handling over received data from your contact form.
 
@@ -20,10 +20,8 @@ if (Astro.request.method === 'POST') {
       to: 'info@booh.dev', // Change to your recipient
       from: 'noreply@booh.dev', // Change to your verified sender
       replyTo: {email:email, name:name},
-      subject: `Contact form submission from ${name}`,
-      company: company,
-      phone: phone,
-      text: message,
+      subject: `Email from prospect client ${name}`,
+      text: message, phone, company,
     }
     await sendGrid.send(msg).then(() => {
       console.log('Email sent')
@@ -47,7 +45,7 @@ if (Astro.request.method === 'POST') {
           <p>Do you have a question? Do you have feedback?<br>
             We look forward to receiving a call or email from you.</p>
         </div>
-    <form method="POST" class="">
+    <form method="POST" class=" p-2">
       <div class="grid grid-cols-2 gap-4">
       <div>
         <input class="border bg-white font-mono border-4 border-black text-black w-full py-2 px-3 focus:outline-none" style="border-width: 4px !important;" type="text" name="name" placeholder="Full Name" />
